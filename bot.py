@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 import time
 import threading
+from MODULES.price_checker import check_price_alerts
 
 # ایمپورت توابع
 from MODULES.user_management import register_or_update_user
@@ -31,7 +32,7 @@ def handle_start(message):
 
     # بررسی عضویت
     if not check_membership(user_id):
-        bot.send_message(message.chat.id, f"برای استفاده از ربات، لطفاً عضو کانال ما شوید.")
+        bot.send_message(message.chat.id, f"{CHANNEL_ID}برای استفاده از ربات، لطفاً عضو کانال ما شوید.")
         return
 
     # ثبت یا بروزرسانی کاربر
@@ -45,11 +46,11 @@ def handle_start(message):
 
 @bot.message_handler(func=lambda message: message.text == "استعلام قیمت")
 def handle_price_check(message):
-    bot.send_message(message.chat.id, "لطفاً نماد موردنظر خود را وارد کنید (مثال: BTCUSDT):")
+    bot.send_message(message.chat.id, "لطفاً نماد موردنظر خود را وارد کنید (مثال: BTC-USDT):")
 
 @bot.message_handler(func=lambda message: message.text == "آلارم قیمت")
 def handle_price_alert(message):
-    bot.send_message(message.chat.id, "لطفاً نماد و قیمت موردنظر را به صورت زیر وارد کنید:\n\nBTCUSDT 30000", parse_mode="Markdown")
+    bot.send_message(message.chat.id, "لطفاً نماد و قیمت موردنظر را به صورت زیر وارد کنید:\n\nBTC-USDT 30000", parse_mode="Markdown")
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
@@ -77,3 +78,9 @@ def handle_message(message):
 def price_alert_checker():
     while True:
         check_price_alerts(bot)
+
+if __name__ == "__main__":
+    alert_thread =threading.Thread(target=price_alert_checker)
+    alert_thread.start()
+    print("BOT IS WORKING...")
+    bot.polling()

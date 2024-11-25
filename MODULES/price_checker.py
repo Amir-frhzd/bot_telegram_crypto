@@ -1,5 +1,7 @@
 import requests
+import time
 from .database import get_connection
+
 
 KUCOIN_API_URL = "https://api.kucoin.com/api/v1/market/orderbook/level1"
 
@@ -39,17 +41,20 @@ def check_price_alerts(bot):
     cursor = conn.cursor()
 
     # دریافت تمام آلارم‌ها
-    cursor.execute("SELECT id, user_id, symbol, threshold_price FROM price_alerts")
+    cursor.execute("SELECT id, user_id, symbol,threshold_price FROM price_alerts")
     alerts = cursor.fetchall()
 
     for alert_id, user_id, symbol, threshold_price in alerts:
         try:
-            price = get_price(symbol)
-            if price <= threshold_price:
-                bot.send_message(user_id, f"قیمت {symbol} به {price} رسید!")
+            current_price = get_price(symbol)
+           
+            if current_price<= threshold_price:
+                bot.send_message(user_id,''' f"مهم مهم مهم!!!!!!
+                                 قیمت {symbol} به {current_price} رسید!" ''')
                 cursor.execute("DELETE FROM price_alerts WHERE id = ?", (alert_id,))
                 conn.commit()
         except Exception as e:
             print(f"خطا در بررسی آلارم: {e}")
 
     conn.close()
+    time.sleep(60)

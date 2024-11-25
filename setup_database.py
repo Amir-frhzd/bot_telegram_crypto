@@ -31,7 +31,7 @@ price_alerts(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER NOT NULL,
         symbol TEXT NOT NULL,
-        thershold_price REAL NOT NULL,
+        threshold_price REAL NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users (user_id))
 ''')
