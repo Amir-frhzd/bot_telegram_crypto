@@ -24,4 +24,4 @@ def register_or_update_user(user_id, username, first_name):
         """, (user_id, username, first_name, 1))
         conn.commit()
         conn.close()
-        return "اطلاعات شما ثبت شد."
+        return 

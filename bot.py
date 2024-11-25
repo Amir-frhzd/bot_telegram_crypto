@@ -32,7 +32,9 @@ def handle_start(message):
 
     # بررسی عضویت
     if not check_membership(user_id):
-        bot.send_message(message.chat.id, f"{CHANNEL_ID}برای استفاده از ربات، لطفاً عضو کانال ما شوید.")
+        channel_username = "arzmannn"
+        channel_link =f"https://t.me/{channel_username}"
+        bot.send_message(message.chat.id, f" ({channel_link}) ابتدا در کانل عضو شوید.")
         return
 
     # ثبت یا بروزرسانی کاربر

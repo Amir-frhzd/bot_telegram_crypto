@@ -49,8 +49,7 @@ def check_price_alerts(bot):
             current_price = get_price(symbol)
            
             if current_price<= threshold_price:
-                bot.send_message(user_id,''' f"مهم مهم مهم!!!!!!
-                                 قیمت {symbol} به {current_price} رسید!" ''')
+                bot.send_message(user_id,f"مهم مهم مهم!!!!!!قیمت {symbol} به {current_price} رسید!")
                 cursor.execute("DELETE FROM price_alerts WHERE id = ?", (alert_id,))
                 conn.commit()
         except Exception as e:
